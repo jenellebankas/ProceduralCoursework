@@ -1,12 +1,79 @@
-# include <stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "FitnessDataStruct.h"
+
+// Struct moved to header file
+
+// Define any additional variables here
+// Global variables for filename and FITNESS_DATA array
+
+// array of FITNESS_DATA structs
+    FITNESS_DATA fitness[100];
+ // declaring variables needed to temp store 
+    char date[11];
+    char time[6];
+    char steps[100000];
+
+// This is your helper function. Do not change it in any way.
+// Inputs: character array representing a row; the delimiter character
+// Ouputs: date character array; time character array; steps character array
+void tokeniseRecord(const char *input, const char *delimiter,
+                    char *date, char *time, char *steps) {
+    // Create a copy of the input string as strtok modifies the string
+    char *inputCopy = strdup(input);
+    
+    // Tokenize the copied string
+    char *token = strtok(inputCopy, delimiter);
+    if (token != NULL) {        strcpy(date, token);
+    }
+    
+    token = strtok(NULL, delimiter);
+    if (token != NULL) {
+        strcpy(time, token);
+    }
+    
+    token = strtok(NULL, delimiter);
+    if (token != NULL) {
+        strcpy(steps, token);
+    }
+    
+    // Free the duplicated string
+    free(inputCopy);
+
+                    }
 
 
-int main () {
 
 
-}
+// Complete the main function
+int main() {
 
-switch c { 
+    // variables needed 
+    int buffer_size = 250;
+    char line[buffer_size];
+    int counter = 0;
+    int count;
+
+   
+
+    char filename[] = "FitnessData_2023.csv";
+    FILE *file = fopen(filename, "r");
+
+    // to read each line
+    while (fgets(line, buffer_size, file)) {   
+        // sorting the data in the file
+        tokeniseRecord(line, ",", date, time, steps);
+        
+        // copy the info into the array
+        strcpy(fitness[counter].date, date);
+        strcpy(fitness[counter].time, time);
+        fitness[counter].steps = atoi(steps);
+        counter++;
+    }
+
+
+    switch c { 
 
     case "A":
         printf("Input filename: \n");
@@ -30,4 +97,7 @@ switch c {
         break;
     case "Q":
         break;
+    }     
 }
+
+
