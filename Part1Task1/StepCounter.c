@@ -11,9 +11,9 @@
 // array of FITNESS_DATA structs
     FITNESS_DATA fitness[100];
  // declaring variables needed to temp store 
-    char date[11];
-    char time[6];
-    char steps[100000];
+    char DATE[11];
+    char TIME[6];
+    char STEPS[100000];
 
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
@@ -25,7 +25,8 @@ void tokeniseRecord(const char *input, const char *delimiter,
     
     // Tokenize the copied string
     char *token = strtok(inputCopy, delimiter);
-    if (token != NULL) {        strcpy(date, token);
+    if (token != NULL) {
+        strcpy(date, token);
     }
     
     token = strtok(NULL, delimiter);
@@ -41,7 +42,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
     // Free the duplicated string
     free(inputCopy);
 
-                    }
+}
 
 
 
@@ -55,48 +56,47 @@ int main() {
     int counter = 0;
     int count;
 
-   
-
     char filename[] = "FitnessData_2023.csv";
     FILE *file = fopen(filename, "r");
 
     // to read each line
     while (fgets(line, buffer_size, file)) {   
         // sorting the data in the file
-        tokeniseRecord(line, ",", date, time, steps);
+        tokeniseRecord(line, ",", DATE, TIME, STEPS);
         
         // copy the info into the array
-        strcpy(fitness[counter].date, date);
-        strcpy(fitness[counter].time, time);
-        fitness[counter].steps = atoi(steps);
+        strcpy(fitness[counter].date, DATE);
+        strcpy(fitness[counter].time, TIME);
+        fitness[counter].steps = atoi(STEPS);
         counter++;
+        
     }
 
 
     switch c { 
 
-    case "A":
-        printf("Input filename: \n");
-        scanf("%s", filename);
-        break;
-    case "B":
-        printf("Total records: \n")
-        break;
-    case "C":
-        printf("Fewest steps: \n")
-        break;
-    case "D":
-        printf("largest steps: \n")
-        break;
-    case "E":
-        printf("mean step count: \n")
-        break;
-    case "F":
-        printf("Longest period start: \n")
-        printf("Longest perod end: \n")
-        break;
-    case "Q":
-        break;
+        case "A":
+            printf("Input filename: \n");
+            scanf("%s", filename);
+            break;
+        case "B":
+            printf("Total records: \n")
+            break;
+        case "C":
+            printf("Fewest steps: \n")
+            break;
+        case "D":
+            printf("largest steps: \n")
+            break;
+        case "E":
+            printf("mean step count: \n")
+            break;
+        case "F":
+            printf("Longest period start: \n")
+            printf("Longest perod end: \n")
+            break;
+        case "Q":
+            break;
     }     
 }
 
