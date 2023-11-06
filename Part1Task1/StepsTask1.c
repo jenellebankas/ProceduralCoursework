@@ -23,8 +23,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
     
     // Tokenize the copied string
     char *token = strtok(inputCopy, delimiter);
-    if (token != NULL) {        
-        strcpy(date, token);
+    if (token != NULL) {        strcpy(date, token);
     }
     
     token = strtok(NULL, delimiter);
@@ -59,8 +58,13 @@ int main() {
     char time[6];
     char steps[100000];
 
-    char filename[] = "FitnessData_2023.csv";
+    char filename[] = "FitnessDta_2023.csv";
     FILE *file = fopen(filename, "r");
+
+    if (file == NULL) {
+        printf("Error");
+        exit(1);
+    }
 
     // to read each line
     while (fgets(line, buffer_size, file)) {   
@@ -82,4 +86,3 @@ int main() {
         printf("%s/%s/%d\n",fitness[count].date,fitness[count].time,fitness[count].steps);
     }
 }
-
