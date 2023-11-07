@@ -10,7 +10,7 @@
 FITNESS_DATA fitness[100];
 
 // global variable for the filename 
-char filename[];
+char filename[] = "";
 
 // to be accessed by multiple functions
 int GLOBALCOUNT = 0;
@@ -49,7 +49,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
    
 int presentOptions() {
 
-    char choice[2];
+    char choice;
 
     // to print the options available 
     printf("Menu Options:\n");
@@ -61,47 +61,47 @@ int presentOptions() {
     printf("F: Find the longest continuous period where the step count is above 500 steps\n");
     printf("Q: Quit\n");
     printf("Enter Choice: \n");
-    scanf("%s", choice);
+    scanf("%d", &choice);
 
-    if (choice != "A" || "B" || "C" || "D" || "E" || "F" || "Q") {
-        printf("Incorrect input, try again!");
-    } else {
-        // switch for the user once their option has been inputted 
-        switch (choice) { 
+   
+    // switch for the user once their option has been inputted 
+    switch (choice) { 
 
-            case "A":
-                printf("Input filename: \n");
-                scanf("%s", filename);
-                FILE *openFile(filename,"r");
-                totalRecords();
-                addToArray();
-                break;
+        case 'A':
+            printf("Input filename: \n");
+            scanf("%s", filename);
+            totalRecords();
+            addToArray(FILE *openFile(filename,"r"));
+            break;
 
-            case "B":
-                printf("Total records: %d\n", GLOBALCOUNT);
-                break;
+        case 'B':
+            printf("Total records: %d\n", GLOBALCOUNT);
+            break;
 
-            case "C": 
-                fewestSteps();
-                break;
+        case 'C': 
+            fewestSteps();
+            break;
 
-            case "D":
-                largestSteps();
-                break;
+        case 'D':
+            largestSteps();
+            break;
 
-            case "E":
-                meanStepCount();
-                break;
+        case 'E':
+            meanStepCount();
+            break;
 
-            case "F":
-                longestPeriodCheck();
-                break;
+        case 'F':
+            longestPeriodCheck();
+            break;
 
-            case "Q":
-                EXIT = 1;
-                break;
-            }     
-        }
+        case 'Q':
+            EXIT = 1;
+            break;
+
+        default:
+            printf("Incorrect input, try again!");
+            break;
+        
     }  
 }
 
@@ -117,7 +117,7 @@ FILE *openFile(char filename[], char mode[]) {
     return file;
 }
 
-int addToArray() {
+int addToArray(*file) {
 
     // variables needed 
     int buffer_size = 250;
@@ -141,32 +141,29 @@ int addToArray() {
         fitness[counter].steps = atoi(steps);   
     }
 
-    fclose(file);
-    return 0;
-}
-
-int totalRecords() {
-
-    int counter = 0;
 
     while (fgets(line, buffer_size, file)) { 
         counter++;
     }
 
-    COUNT = counter;
+    GLOBALCOUNT = counter;
+
+
+    fclose(file);
     return 0;
 }
+
 
 void fewestSteps() {
     
     //count variable declared for the function
     int count = 0;
     int fewest = 99999999;
-    char fewestDate[];
-    char fewestTime[];
+    char fewestDate[11];
+    char fewestTime[6];
     
 
-    for (count = 0; count < GLOBALCOUNT - 1, count++) {
+    for (count = 0; count < GLOBALCOUNT - 1; count++) {
         if (fitness[count].steps < fewest) {
             fewestDate = fitness[count].date;
             fewestTime = fitness[count].time;
@@ -181,11 +178,11 @@ void largestSteps() {
     
     int count;
     int largest = 0;
-    char largestDate[];
-    char largestTime[];
+    char largestDate[11];
+    char largestTime[6];
     
 
-    for (count = 0; count < GLOBALCOUNT - 1, count++) {
+    for (count = 0; count < GLOBALCOUNT - 1; count++) {
         if (fitness[count].steps > largest) {
             largestDate = fitness[count].date;
             largestTime = fitness[count].time;
@@ -200,6 +197,7 @@ int meanStepCount() {
 
     int total = 0;
     float mean = 0.0;
+    int count;
 
     for (count = 0; count < GLOBALCOUNT; count++) {
         total += fitness[count].steps;
@@ -207,7 +205,7 @@ int meanStepCount() {
 
     mean = total / GLOBALCOUNT;
 
-    printf("Mean step count: %d\n", mean);
+    printf("Mean step count: %f\n", mean);
     return 0;
 }
 
@@ -216,10 +214,10 @@ int longestPeriodCheck() {
     int count;
     int count2;
     int periodLength = 0;
-    char periodStartDate[];
-    char periodStartTime[];
-    char periodEndDate[];
-    char periodEndTime[];
+    char periodStartDate[11];
+    char periodStartTime[6];
+    char periodEndDate[11];
+    char periodEndTime[6];
 
     for (count = 0; count < GLOBALCOUNT; count++) {
         periodStartDate = fitness[count].date;

@@ -14,17 +14,14 @@ typedef struct {
 void tokeniseRecord(const char *input, const char *delimiter, char *date, char *time, char *steps);
 
 //REMEMEBER TO DECLARE ALL OTHER FUNCTIONS
+FILE *openFile(char filename[], char mode[]);
 int presentOptions();
 int totalRecords();
-int addToArray();
-int totalRecords();
+int addToArray(*file);
 void fewestSteps();
 void largestSteps();
 int meanStepCount();
 int longestPeriodCheck();
-
-
-
 
 
 #endif // FITNESS_DATA_STRUCT_H
