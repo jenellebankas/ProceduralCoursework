@@ -14,21 +14,7 @@ typedef struct {
 // Helper function prototypes
 void tokeniseRecord(const char *input, const char *delimiter, char *date, char *time, char *steps);
 
-//REMEMEBER TO DECLARE ALL OTHER FUNCTIONS
-FILE *openFile(char filename[], char mode[]);
-// this is a doxygen comment - you'll see more of these in COMP1921 :)
-// taken from sessin code
-/**
- * @brief Opens the specified file
- *
- * @param filename the path to the file to be opened.
- * @param mode the mode ( r/w/a | + )
- * @return the opened file pointer
- */
-
-
-
-int presentOptions();
+int optionOperations();
 int totalRecords();
 int addToArray();
 void fewestSteps();

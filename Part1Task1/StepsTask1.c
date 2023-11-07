@@ -57,6 +57,7 @@ int main() {
     char date[11];
     char time[6];
     char steps[100000];
+    char help[6];
 
     char filename[] = "FitnessDta_2023.csv";
     FILE *file = fopen(filename, "r");
@@ -77,6 +78,8 @@ int main() {
         fitness[counter].steps = atoi(steps);
         counter++;
     }
+
+    
 
     // print the number of records
     printf("Number of records in file: %d\n", counter);
