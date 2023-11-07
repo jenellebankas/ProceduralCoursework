@@ -10,7 +10,7 @@
 FITNESS_DATA fitness[100];
 
 // global variable for the filename 
-char filename[] = "";
+char filename[10000];
 
 // to be accessed by multiple functions
 int GLOBALCOUNT = 0;
@@ -61,7 +61,9 @@ int presentOptions() {
     printf("F: Find the longest continuous period where the step count is above 500 steps\n");
     printf("Q: Quit\n");
     printf("Enter Choice: \n");
-    scanf("%d", &choice);
+
+    // taken from https://www.scaler.com/topics/getchar-function-in-c/#
+    choice = getchar();
 
    
     // switch for the user once their option has been inputted 
@@ -71,7 +73,7 @@ int presentOptions() {
             printf("Input filename: \n");
             scanf("%s", filename);
             totalRecords();
-            addToArray(FILE *openFile(filename,"r"));
+            addToArray();
             break;
 
         case 'B':
@@ -79,11 +81,11 @@ int presentOptions() {
             break;
 
         case 'C': 
-            fewestSteps();
+            //fewestSteps();
             break;
 
         case 'D':
-            largestSteps();
+            //largestSteps();
             break;
 
         case 'E':
@@ -91,7 +93,7 @@ int presentOptions() {
             break;
 
         case 'F':
-            longestPeriodCheck();
+            //longestPeriodCheck();
             break;
 
         case 'Q':
@@ -117,8 +119,9 @@ FILE *openFile(char filename[], char mode[]) {
     return file;
 }
 
-int addToArray(*file) {
+int addToArray() {
 
+    FILE *file = fopen(filename, "r");
     // variables needed 
     int buffer_size = 250;
     char line[buffer_size];
@@ -220,13 +223,12 @@ int longestPeriodCheck() {
     char periodEndTime[6];
 
     for (count = 0; count < GLOBALCOUNT; count++) {
-        periodStartDate = fitness[count].date;
-        periodStartTime = fitness[count].time;
-        
         // continue statement taken from: https://www.geeksforgeeks.org/continue-in-c/
         if (fitness[count].steps < 500) {
             continue;
         } else {
+            periodStartDate = fitness[count].date;
+            periodStartTime = fitness[count].time;
             for (count2 = count; count2 < GLOBALCOUNT; count2++) {
                 if (fitness[count].steps > 500) {
                     continue;
