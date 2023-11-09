@@ -47,23 +47,24 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 int optionOperations() {
 
-    int choice;
+    char choice[2];
+
 
     // to print the options available 
-        printf("Menu Options:\n");
-        printf("A: Specify the filename to be imported\n");
-        printf("B: Display the total number of records in the file\n");
-        printf("C: Find the date and time of the timeslot with the fewest steps\n");
-        printf("D: Find the date and time of the timeslot with the largest number of steps\n");
-        printf("E: Find the mean step count of all the records in the file\n");
-        printf("F: Find the longest continuous period where the step count is above 500 steps\n");
-        printf("Q: Quit\n");
-        printf("Enter Choice: ");
+    printf("Menu Options:\n");
+    printf("A: Specify the filename to be imported\n");
+    printf("B: Display the total number of records in the file\n");
+    printf("C: Find the date and time of the timeslot with the fewest steps\n");
+    printf("D: Find the date and time of the timeslot with the largest number of steps\n");
+    printf("E: Find the mean step count of all the records in the file\n");
+    printf("F: Find the longest continuous period where the step count is above 500 steps\n");
+    printf("Q: Quit\n");
+    printf("Enter Choice: ");
+    scanf("%s", choice);
 
-    // taken from https://www.scaler.com/topics/getchar-function-in-c/#
-        choice = getchar();
+
     // switch for the user once their option has been inputted 
-    switch (choice) { 
+    switch (choice[0]) { 
 
         case 'A':
             printf("Input filename: ");
@@ -104,7 +105,6 @@ int optionOperations() {
             printf("Incorrect input, try again!\n");
             optionOperations();
             break;
-        
     }  
 }
 
@@ -212,7 +212,7 @@ int longestPeriodCheck() {
 
     int count;
     int count2 = 0;
-    int maxPeriodLength;
+    int maxPeriodLength = 0;
     int currentPeriodLength = 0;
     int endPeriod = 0;
     char periodStartDate[11];
@@ -224,28 +224,16 @@ int longestPeriodCheck() {
    
 
     for (count = 0; count < GLOBALCOUNT; count++) {
-
-        // continue statement taken from: https://www.geeksforgeeks.org/continue-in-c/
-            if (fitness[count].steps > 500) {
-                currentPeriodLength = 0;
-                strcpy(tempPeriodStartDate,fitness[count].date);
-                strcpy(tempPeriodStartTime,fitness[count].time);
-            
-                while (endPeriod == 0) {
-                    count2 = count;
-                    currentPeriodLength++;
-                    if ((fitness[count2].steps <= 500) && (currentPeriodLength >= maxPeriodLength)) {
-                        strcpy(periodStartDate, tempPeriodStartDate);
-                        strcpy(periodStartTime, tempPeriodStartTime);
-                        strcpy(periodEndDate,fitness[count2 - 1].date);
-                        strcpy(periodEndTime,fitness[count2 - 1].time);
-                        maxPeriodLength = currentPeriodLength;
-                        printf("%d", endPeriod);
-                        endPeriod = 1;
-                    } else {
-                        count2++;
-                } 
-            }   
+        if (fitness[count].steps > 500) {
+            for (count2 = count + 1; count2 < GLOBALCOUNT; count2++) {
+                if (fitness[count2].steps > 500) {
+                    currentPeriodLength += 1;
+                    continue;
+                } else if (fitness[count2].steps < 500 && (currentPeriodLength > maxPeriodLength)) {
+                    maxPeriodLength = currentPeriodLength - 1;
+                    currentPeriodLength = 0;
+                }
+            }
         }
     }
     printf("Longest period start: %s %s\n", periodStartDate, periodStartTime);
@@ -257,7 +245,6 @@ int longestPeriodCheck() {
 
 // complete the main function
 int main() {
-
 
     optionOperations();
     
