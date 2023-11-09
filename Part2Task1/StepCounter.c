@@ -48,7 +48,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
 // function to handle menu and call correct functions
 int optionOperations() {
 
-    char choice[2];
+    char choice;
 
     // to print the options available 
     printf("Menu Options:\n");
@@ -60,11 +60,14 @@ int optionOperations() {
     printf("F: Find the longest continuous period where the step count is above 500 steps\n");
     printf("Q: Quit\n");
     printf("Enter Choice: ");
-    scanf("%s", choice);
-
+    //scanf("%s", choice);
+    
+    choice = getchar();
+    
+  
 
     // switch for the user once their option has been inputted 
-    switch (choice[0]) { 
+    switch (choice) { 
 
         case 'A':
             printf("Input filename: ");
@@ -94,6 +97,7 @@ int optionOperations() {
 
         case 'Q':
             EXIT = 1;
+            return 0;
             break;
 
         default:
@@ -245,7 +249,7 @@ int longestPeriodCheck() {
 int main() {
 
     while (EXIT == 0) {
-        optionOperations();
+        optionOperations();  
     }
     return 0;
 }
