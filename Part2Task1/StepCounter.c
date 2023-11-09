@@ -14,6 +14,7 @@ char filename[10000];
 
 // to be accessed by multiple functions
 int GLOBALCOUNT = 0;
+int EXIT = 0;
 
 
 // This is your helper function. Do not change it in any way.
@@ -44,7 +45,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
     free(inputCopy);
 }
 
-
+// function to handle menu and call correct functions
 int optionOperations() {
 
     char choice[2];
@@ -70,40 +71,34 @@ int optionOperations() {
             printf("Input filename: ");
             scanf("%s", filename);
             addToArray();
-            optionOperations();
             break;
 
         case 'B':
             printf("Total records: %d\n", GLOBALCOUNT);
-            optionOperations();
             break;
 
         case 'C': 
             fewestSteps();
-            optionOperations();
             break;
 
         case 'D':
             largestSteps();
-            optionOperations();
             break;
 
         case 'E':
             meanStepCount();
-            optionOperations();
             break;
 
         case 'F':
             longestPeriodCheck();
-            optionOperations();
             break;
 
         case 'Q':
+            EXIT = 1;
             break;
 
         default:
             printf("Incorrect input, try again!\n");
-            optionOperations();
             break;
     }  
 }
@@ -116,7 +111,7 @@ int addToArray() {
 
     if (file == NULL) {
         printf("Error: Could not find or open the file.\n");
-        exit(1);
+        EXIT = 1;
     }
 
     // variables needed 
@@ -236,17 +231,18 @@ int longestPeriodCheck() {
             }
         }
     }
-    printf("Longest period start: %s %s\n", periodStartDate, periodStartTime);
-    printf("Longest period end: %s %s\n", periodEndDate, periodEndTime); 
+    //printf("Longest period start: %s %s\n", periodStartDate, periodStartTime);
+    //printf("Longest period end: %s %s\n", periodEndDate, periodEndTime); 
 
     return 0;  
 }
 
 
-// complete the main function
+// calls the menu operations function and enables it to be called until exited 
 int main() {
 
-    optionOperations();
-    
+    while (EXIT == 0) {
+        optionOperations();
+    }
     return 0;
 }
