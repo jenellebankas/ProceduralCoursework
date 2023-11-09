@@ -50,7 +50,6 @@ int optionOperations() {
 
     char choice[2];
 
-
     // to print the options available 
     printf("Menu Options:\n");
     printf("A: Specify the filename to be imported\n");
@@ -99,6 +98,7 @@ int optionOperations() {
 
         default:
             printf("Incorrect input, try again!\n");
+            optionOperations();
             break;
     }  
 }
@@ -209,30 +209,33 @@ int longestPeriodCheck() {
     int count2 = 0;
     int maxPeriodLength = 0;
     int currentPeriodLength = 0;
-    int endPeriod = 0;
     char periodStartDate[11];
     char periodStartTime[6];
     char periodEndDate[11];
     char periodEndTime[6];
-    char tempPeriodStartDate[11];
-    char tempPeriodStartTime[6];
+    
    
 
-    for (count = 0; count < GLOBALCOUNT; count++) {
+    while (count < GLOBALCOUNT) {
         if (fitness[count].steps > 500) {
-            for (count2 = count + 1; count2 < GLOBALCOUNT; count2++) {
-                if (fitness[count2].steps > 500) {
-                    currentPeriodLength += 1;
-                    continue;
-                } else if (fitness[count2].steps < 500 && (currentPeriodLength > maxPeriodLength)) {
-                    maxPeriodLength = currentPeriodLength - 1;
-                    currentPeriodLength = 0;
-                }
+            while (fitness[count2].steps > 500) {
+                currentPeriodLength += 1;
+                count2++;
+            }
+            if (currentPeriodLength > maxPeriodLength) {
+                maxPeriodLength = currentPeriodLength;
+                currentPeriodLength = 0; 
+                strcpy(periodStartDate, fitness[count].date);
+                strcpy(periodStartTime, fitness[count].time);
+                strcpy(periodEndDate, fitness[count2 - 1].date);
+                strcpy(periodEndTime, fitness[count2 - 1].time);
+                break; 
             }
         }
+    count++;
     }
-    //printf("Longest period start: %s %s\n", periodStartDate, periodStartTime);
-    //printf("Longest period end: %s %s\n", periodEndDate, periodEndTime); 
+    printf("Longest period start: %s %s\n", periodStartDate, periodStartTime);
+    printf("Longest period end: %s %s\n", periodEndDate, periodEndTime); 
 
     return 0;  
 }
