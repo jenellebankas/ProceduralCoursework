@@ -117,6 +117,7 @@ int addToArray() {
     if (file == NULL) {
         printf("Error: Could not find or open the file.\n");
         EXIT = 1;
+        return 0;
     }
 
     // variables needed 
@@ -207,33 +208,42 @@ int meanStepCount() {
     return 0;
 }
 
+
 // function to calculate the longest period
 int longestPeriodCheck() {
 
-    int count, count2;
-    int maxPeriodLength, currentPeriodLength = 0;
+    int count;
+    int count2 = 0;
+    int currentPeriodLength = 0;
+    int maxPeriodLength = 0;
     char periodStartDate[11];
     char periodStartTime[6];
     char periodEndDate[11];
     char periodEndTime[6];
 
-    for (count = 0; count < GLOBALCOUNT; count++) {
+    while (count < GLOBALCOUNT - 1) {
         currentPeriodLength = 0;
+;
         if (fitness[count].steps > 500) {
             count2 = count + 1; 
-            while (count2 < GLOBALCOUNT && fitness[count2].steps > 500) {
+        }
+        
+        while (count2 < GLOBALCOUNT - 1 && fitness[count2].steps > 500) {
                 currentPeriodLength++;
                 count2++;
-            }
-        } 
-        if (currentPeriodLength > maxPeriodLength) {
-                maxPeriodLength = currentPeriodLength;
-                strcpy(periodStartDate, fitness[count].date);
-                strcpy(periodStartTime, fitness[count].time);
-                strcpy(periodEndDate, fitness[count2 -1].date);
-                strcpy(periodEndTime, fitness[count2 - 1].time);
         }
+        
+        if (currentPeriodLength > maxPeriodLength) {
+            maxPeriodLength = currentPeriodLength;
+            
+            strcpy(periodStartDate, fitness[count].date);
+            strcpy(periodStartTime, fitness[count].time);
+            strcpy(periodEndDate, fitness[count2 -1].date);
+            strcpy(periodEndTime, fitness[count2 - 1].time);      
+        }   
+    count++;   
     }
+
     printf("Longest period start: %s %s\n", periodStartDate, periodStartTime);
     printf("Longest period end: %s %s\n", periodEndDate, periodEndTime); 
 
