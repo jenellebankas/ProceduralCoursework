@@ -67,16 +67,16 @@ int addToArray() {
         // sorting the data in the file
         tokeniseRecord(line, ",", date, time, steps);
 
-        if (date == NULL || steps == 0 || time == NULL) {
-            printf("Error: Invalid File.\n");
-            return 1;
-        }
-
         // copy the info into the array
         strcpy(fitness[counter].date, date);
         strcpy(fitness[counter].time, time);
         fitness[counter].steps = atoi(steps);  
         counter++;
+
+        if (fitness[counter].date == NULL || fitness[counter].time == NULL || fitness[counter].steps == 0) {
+            printf("Invalid File.\n");
+            return 1;
+        }
     }
 
     GLOBALCOUNT = counter;

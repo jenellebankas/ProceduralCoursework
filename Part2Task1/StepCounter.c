@@ -48,7 +48,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
 // function to handle menu and call correct functions
 int optionOperations() {
 
-    char choice;
+    char choice[10000];
 
     // to print the options available 
     printf("Menu Options:\n");
@@ -60,14 +60,15 @@ int optionOperations() {
     printf("F: Find the longest continuous period where the step count is above 500 steps\n");
     printf("Q: Quit\n");
     printf("Enter Choice: ");
-    //scanf("%s", choice);
+    scanf("%s", choice);
     
-    choice = getchar();
+    if (choice[1] != '\0') {
+        printf("Incorrect input, try again!\n");
+        optionOperations();
+    }
     
-  
-
     // switch for the user once their option has been inputted 
-    switch (choice) { 
+    switch (choice[0]) { 
 
         case 'A':
             printf("Input filename: ");
@@ -210,33 +211,29 @@ int meanStepCount() {
 int longestPeriodCheck() {
 
     int count;
-    int count2 = 0;
-    int maxPeriodLength = 0;
-    int currentPeriodLength = 0;
+    int count2, exitLoop, maxPeriodLength, currentPeriodLength = 0;
     char periodStartDate[11];
     char periodStartTime[6];
     char periodEndDate[11];
     char periodEndTime[6];
-    
-   
 
-    while (count < GLOBALCOUNT) {
+    
+    
+    for (count = 0; count < GLOBALCOUNT; count++) {
         if (fitness[count].steps > 500) {
-            while (fitness[count2].steps > 500) {
-                currentPeriodLength += 1;
-                count2++;
-            }
-            if (currentPeriodLength > maxPeriodLength) {
+            count2 = count;
+            if (fitness[count2].steps < 500){
                 maxPeriodLength = currentPeriodLength;
-                currentPeriodLength = 0; 
-                strcpy(periodStartDate, fitness[count].date);
+                strcpy(periodStartDate,fitness[count].date);
                 strcpy(periodStartTime, fitness[count].time);
                 strcpy(periodEndDate, fitness[count2 - 1].date);
-                strcpy(periodEndTime, fitness[count2 - 1].time);
-                break; 
-            }
-        }
-    count++;
+                strcpy(periodEndTime,fitness[count2 - 1].time);
+                currentPeriodLength = 0;
+            } else {
+                count2++;
+                currentPeriodLength++;
+            }   
+        }      
     }
     printf("Longest period start: %s %s\n", periodStartDate, periodStartTime);
     printf("Longest period end: %s %s\n", periodEndDate, periodEndTime); 
