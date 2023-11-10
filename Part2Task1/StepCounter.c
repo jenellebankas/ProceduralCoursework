@@ -223,7 +223,7 @@ int longestPeriodCheck() {
 
     while (count < GLOBALCOUNT - 1) {
         currentPeriodLength = 0;
-;
+
         if (fitness[count].steps > 500) {
             count2 = count + 1; 
         }
