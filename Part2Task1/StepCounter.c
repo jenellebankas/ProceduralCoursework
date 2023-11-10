@@ -210,30 +210,29 @@ int meanStepCount() {
 // function to calculate the longest period
 int longestPeriodCheck() {
 
-    int count;
-    int count2, exitLoop, maxPeriodLength, currentPeriodLength = 0;
+    int count, count2;
+    int maxPeriodLength, currentPeriodLength = 0;
     char periodStartDate[11];
     char periodStartTime[6];
     char periodEndDate[11];
     char periodEndTime[6];
 
-    
-    
     for (count = 0; count < GLOBALCOUNT; count++) {
+        currentPeriodLength = 0;
         if (fitness[count].steps > 500) {
-            count2 = count;
-            if (fitness[count2].steps < 500){
-                maxPeriodLength = currentPeriodLength;
-                strcpy(periodStartDate,fitness[count].date);
-                strcpy(periodStartTime, fitness[count].time);
-                strcpy(periodEndDate, fitness[count2 - 1].date);
-                strcpy(periodEndTime,fitness[count2 - 1].time);
-                currentPeriodLength = 0;
-            } else {
-                count2++;
+            count2 = count + 1; 
+            while (count2 < GLOBALCOUNT && fitness[count2].steps > 500) {
                 currentPeriodLength++;
-            }   
-        }      
+                count2++;
+            }
+        } 
+        if (currentPeriodLength > maxPeriodLength) {
+                maxPeriodLength = currentPeriodLength;
+                strcpy(periodStartDate, fitness[count].date);
+                strcpy(periodStartTime, fitness[count].time);
+                strcpy(periodEndDate, fitness[count2 -1].date);
+                strcpy(periodEndTime, fitness[count2 - 1].time);
+        }
     }
     printf("Longest period start: %s %s\n", periodStartDate, periodStartTime);
     printf("Longest period end: %s %s\n", periodEndDate, periodEndTime); 
