@@ -16,7 +16,6 @@ char filename[10000];
 int GLOBALCOUNT = 0;
 int EXIT = 0;
 
-
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
 // Ouputs: date character array; time character array; steps character array
@@ -62,12 +61,14 @@ int optionOperations() {
     printf("Enter Choice: ");
     scanf("%s", choice);
 
-    if (choice[1] != '\0') {
+    choice = getchar();
+
+    if (choice == '\n') {
         printf("Incorrect input, try again!\n");
         optionOperations();
     }
     // switch for the user once their option has been inputted 
-    switch (choice[0]) { 
+    switch (choice) { 
 
         case 'A':
             printf("Input filename: ");
@@ -101,13 +102,8 @@ int optionOperations() {
             break;
 
         default:
-            if (choice[1] != '\0') {
-                printf("Incorrect input, try again!\n");
-                optionOperations();
-            } else {
-                printf("Incorrect input, try again!\n");
-                optionOperations();
-            }
+            printf("Incorrect input, try again!\n");
+            optionOperations();
             break;
     }  
 }
@@ -212,7 +208,6 @@ int meanStepCount() {
     return 0;
 }
 
-
 // function to calculate the longest period
 int longestPeriodCheck() {
 
@@ -233,8 +228,8 @@ int longestPeriodCheck() {
         }
         
         while (count2 < GLOBALCOUNT - 1 && fitness[count2].steps > 500) {
-                currentPeriodLength++;
-                count2++;
+            currentPeriodLength++;
+            count2++;
         }
         
         if (currentPeriodLength > maxPeriodLength) {
@@ -253,7 +248,6 @@ int longestPeriodCheck() {
 
     return 0;  
 }
-
 
 // calls the menu operations function and enables it to be called until exited 
 int main() {
