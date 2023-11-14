@@ -61,14 +61,12 @@ int optionOperations() {
     printf("Enter Choice: ");
     scanf("%s", choice);
 
-    choice = getchar();
-
-    if (choice == '\n') {
+    if (choice[1] != '\0') {
         printf("Incorrect input, try again!\n");
         optionOperations();
     }
     // switch for the user once their option has been inputted 
-    switch (choice) { 
+    switch (choice[0]) { 
 
         case 'A':
             printf("Input filename: ");
@@ -102,8 +100,13 @@ int optionOperations() {
             break;
 
         default:
-            printf("Incorrect input, try again!\n");
-            optionOperations();
+            if (choice[1] != '\0') {
+                printf("Incorrect input, try again!\n");
+                optionOperations();
+            } else {
+                printf("Incorrect input, try again!\n");
+                optionOperations();
+            }
             break;
     }  
 }
