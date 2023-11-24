@@ -41,6 +41,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
     free(inputCopy);
 }
 
+// Function to add values to the array 
 int addToArray() {
 
 
@@ -86,6 +87,7 @@ int addToArray() {
     return 0;
 }
 
+// Function to sort values 
 int sortingArray() {
 
     char tempStoreDate[11];
@@ -123,11 +125,14 @@ int sortingArray() {
     }
 }
 
+// to transfer data into the new tab separated file 
 int sortedNewFile() {
 
+    // filename for opening the new file
     char filename[] = "FitnessData_2023.csv.tsv";
     int count;
 
+    // opening the new file
     FILE *file = fopen(filename, "a");
 
     for (count = 0; count < GLOBALCOUNT; count++) {
@@ -137,6 +142,7 @@ int sortedNewFile() {
 
 int main() {
 
+    // creates a variable to check if the array could be created 
     int addingData;
 
     printf("Please enter a filename: ");
@@ -144,9 +150,12 @@ int main() {
 
     addingData = addToArray();
 
+    // checks if the function to add all the data runs without faults 
     if (addingData == 1) {
         return 1;
     }
+
+    // sorts and formats the new file
     sortingArray();
     sortedNewFile();
     return 0;
