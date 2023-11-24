@@ -120,7 +120,7 @@ int addToArray() {
     if (file == NULL) {
         printf("Error: Could not find or open the file.\n");
         EXIT = 1;
-        return 0;
+        return 1;
     }
 
     // variables needed 
