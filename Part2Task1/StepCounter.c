@@ -119,7 +119,6 @@ int addToArray() {
 
     if (file == NULL) {
         printf("Error: Could not find or open the file.\n");
-        EXIT = 1;
         return 1;
     }
 
@@ -255,8 +254,14 @@ int longestPeriodCheck() {
 // calls the menu operations function and enables it to be called until exited 
 int main() {
 
+    int test;
+
     while (EXIT == 0) {
-        optionOperations();  
+        test = optionOperations(); 
+        if (test == 1) {
+            return 1;
+        }
+
     }
     return 0;
 }

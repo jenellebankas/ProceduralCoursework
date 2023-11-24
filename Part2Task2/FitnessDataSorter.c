@@ -85,12 +85,12 @@ int addToArray() {
     GLOBALCOUNT = counter;
 
     // checks if the file has the correct data 
-    if (DATACOUNT%3 != 0) {
+    if (DATACOUNT % 3 != 0) {
         printf("Invalid File!\n");
         return 1;
     }
     
-    printf("File successfully loaded.\n");
+    printf("Data sorted and written to FitnessData_2023.csv.tsv\n");
 
     fclose(file);
     return 0;
@@ -140,7 +140,7 @@ int sortingArray() {
 int sortedNewFile() {
 
     // filename for opening the new file
-    char filename[] = "FitnessData_2023.csv.tsv";
+    char filename[] = "./FitnessData_2023.csv.tsv";
     int count;
 
     // opening the new file
