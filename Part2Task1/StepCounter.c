@@ -62,7 +62,7 @@ int optionOperations() {
     scanf("%s", choice);
 
     if (choice[1] != '\0') {
-        printf("Incorrect input, try again!\n");
+        printf("Invalid choice. Try again.\n");
         optionOperations();
     }
     // switch for the user once their option has been inputted 
@@ -96,15 +96,15 @@ int optionOperations() {
 
         case 'Q':
             EXIT = 1;
-            return 0;
+            return 1;
             break;
 
         default:
             if (choice[1] != '\0') {
-                printf("Incorrect input, try again!\n");
+                printf("Invalid choice. Try again.\n");
                 optionOperations();
             } else {
-                printf("Incorrect input, try again!\n");
+                printf("Invalid choice. Try again.\n");
                 optionOperations();
             }
             break;
@@ -261,7 +261,6 @@ int main() {
         if (test == 1) {
             return 1;
         }
-
     }
     return 0;
 }
