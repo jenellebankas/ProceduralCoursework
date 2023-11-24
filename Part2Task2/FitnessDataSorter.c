@@ -9,7 +9,9 @@ typedef struct {
     int steps;
 } FITNESS_DATA;
 
+int DATACOUNT = 0;
 int GLOBALCOUNT = 0;
+
 // array of FITNESS_DATA structs
 FITNESS_DATA fitness[100];
 
@@ -25,16 +27,19 @@ void tokeniseRecord(const char *input, const char *delimiter,
     char *token = strtok(inputCopy, delimiter);
     if (token != NULL) {
         strcpy(date, token);
+        DATACOUNT++;
     }
     
     token = strtok(NULL, delimiter);
     if (token != NULL) {
         strcpy(time, token);
+        DATACOUNT++;
     }
     
     token = strtok(NULL, delimiter);
     if (token != NULL) {
         strcpy(steps, token);
+        DATACOUNT++;
     }
     
     // Free the duplicated string
@@ -67,20 +72,24 @@ int addToArray() {
     while (fgets(line, buffer_size, file)) {   
         // sorting the data in the file
         tokeniseRecord(line, ",", date, time, steps);
+        
 
         // copy the info into the array
         strcpy(fitness[counter].date, date);
         strcpy(fitness[counter].time, time);
         fitness[counter].steps = atoi(steps);  
         counter++;
-
-        if (fitness[counter].date == NULL || fitness[counter].time == NULL || fitness[counter].steps == 0) {
-            printf("Invalid File.\n");
-            return 1;
-        }
+       
     }
 
     GLOBALCOUNT = counter;
+
+    // checks if the file has the correct data 
+    if (DATACOUNT%3 != 0) {
+        printf("Invalid File!\n");
+        return 1;
+    }
+    
     printf("File successfully loaded.\n");
 
     fclose(file);
@@ -96,8 +105,10 @@ int sortingArray() {
     int swapped = 0;
     int count, count2;
 
+    // bubble sort algorithm to sort thorugh the data 
     for (count = 0; count < GLOBALCOUNT - 1; count++) {
         swapped = 0;
+         
         for (count2 = 0; count2 < GLOBALCOUNT - 1; count2++) {
 
             if (fitness[count].steps > fitness[count2].steps) {
@@ -115,10 +126,10 @@ int sortingArray() {
             fitness[count2].steps = tempStoreSteps;
 
             swapped = 1;
-            
             }
         }
         
+        // boolean to check if the value has already been swapped 
         if (swapped == 0) {
             break;
         }      
@@ -135,6 +146,7 @@ int sortedNewFile() {
     // opening the new file
     FILE *file = fopen(filename, "a");
 
+    // writes the data to the file 
     for (count = 0; count < GLOBALCOUNT; count++) {
         fprintf(file, "%s\t%s\t%d\n", fitness[count].date, fitness[count].time, fitness[count].steps);
     }
@@ -150,8 +162,8 @@ int main() {
 
     addingData = addToArray();
 
-    // checks if the function to add all the data runs without faults 
-    if (addingData == 1) {
+    // checks function to add all the data runs without faults 
+    if (addingData == 1){
         return 1;
     }
 
