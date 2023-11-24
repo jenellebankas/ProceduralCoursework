@@ -9,16 +9,18 @@ typedef struct {
     int steps;
 } FITNESS_DATA;
 
-int DATACOUNT = 0;
 int GLOBALCOUNT = 0;
+
+
 
 // array of FITNESS_DATA structs
 FITNESS_DATA fitness[100];
 
 char filename[100000];
+char sortedFileName[10000000];
 
 // Function to tokenize a record
-void tokeniseRecord(const char *input, const char *delimiter,
+int tokeniseRecord(const char *input, const char *delimiter,
                     char *date, char *time, char *steps) {
     // Create a copy of the input string as strtok modifies the string
     char *inputCopy = strdup(input);
@@ -27,20 +29,26 @@ void tokeniseRecord(const char *input, const char *delimiter,
     char *token = strtok(inputCopy, delimiter);
     if (token != NULL) {
         strcpy(date, token);
-        DATACOUNT++;
+    } else {
+        printf("Invalid File!\n");
+        return 1;
     }
-    
+
     token = strtok(NULL, delimiter);
     if (token != NULL) {
         strcpy(time, token);
-        DATACOUNT++;
+    } else {
+        printf("Invalid File!\n");
+        return 1;
     }
     
     token = strtok(NULL, delimiter);
     if (token != NULL) {
         strcpy(steps, token);
-        DATACOUNT++;
-    }
+    } else {
+        printf("Invalid File!\n");
+        return 1;
+    } 
     
     // Free the duplicated string
     free(inputCopy);
@@ -48,7 +56,6 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 // Function to add values to the array 
 int addToArray() {
-
 
     FILE *file = fopen(filename, "r");
 
@@ -68,12 +75,16 @@ int addToArray() {
     char time[6];
     char steps[100000];
 
+    int token = 0;
     // to read each line
     while (fgets(line, buffer_size, file)) {   
         // sorting the data in the file
-        tokeniseRecord(line, ",", date, time, steps);
+        token = tokeniseRecord(line, ",", date, time, steps);
+    
+        if (token == 1){
+            return 1;
+        }
         
-
         // copy the info into the array
         strcpy(fitness[counter].date, date);
         strcpy(fitness[counter].time, time);
@@ -83,14 +94,6 @@ int addToArray() {
     }
 
     GLOBALCOUNT = counter;
-
-    // checks if the file has the correct data 
-    if (DATACOUNT % 3 != 0) {
-        printf("Invalid File!\n");
-        return 1;
-    }
-    
-    printf("Data sorted and written to FitnessData_2023.csv.tsv\n");
 
     fclose(file);
     return 0;
@@ -139,17 +142,21 @@ int sortingArray() {
 // to transfer data into the new tab separated file 
 int sortedNewFile() {
 
-    // filename for opening the new file
-    char filename[] = "./FitnessData_2023.csv.tsv";
     int count;
+    
+    strcpy(sortedFileName,filename);
+    char tsv[4] = ".tsv";
+
+    strcat(sortedFileName,tsv);
 
     // opening the new file
-    FILE *file = fopen(filename, "a");
+    FILE *file = fopen(sortedFileName, "a");
 
     // writes the data to the file 
     for (count = 0; count < GLOBALCOUNT; count++) {
         fprintf(file, "%s\t%s\t%d\n", fitness[count].date, fitness[count].time, fitness[count].steps);
     }
+    printf("Data sorted and written to %s\n", sortedFileName);
 }
 
 int main() {
@@ -157,7 +164,7 @@ int main() {
     // creates a variable to check if the array could be created 
     int addingData;
 
-    printf("Please enter a filename: ");
+    printf("Enter a filename: ");
     scanf("%s", filename); 
 
     addingData = addToArray();
