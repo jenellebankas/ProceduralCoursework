@@ -143,20 +143,25 @@ int sortingArray() {
 int sortedNewFile() {
 
     int count;
-    
+    char sameDirectory[2] = "./";
     strcpy(sortedFileName,filename);
+    strcat(sameDirectory,sortedFileName);
+    
+   
     char tsv[4] = ".tsv";
 
-    strcat(sortedFileName,tsv);
+    strcat(sameDirectory,tsv);
+    printf("%s", sameDirectory);
 
     // opening the new file
-    FILE *file = fopen(sortedFileName, "a");
+    FILE *file = fopen(sameDirectory, "a");
+
 
     // writes the data to the file 
     for (count = 0; count < GLOBALCOUNT; count++) {
         fprintf(file, "%s\t%s\t%d\n", fitness[count].date, fitness[count].time, fitness[count].steps);
     }
-    printf("Data sorted and written to %s\n", sortedFileName);
+    printf("Data sorted and written to %s\n", sameDirectory);
 }
 
 int main() {
