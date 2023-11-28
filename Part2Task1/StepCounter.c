@@ -78,7 +78,6 @@ int optionOperations() {
             }
             break;
 
-
         case 'B':
             printf("Total records: %d\n", GLOBALCOUNT);
             break;
@@ -201,18 +200,18 @@ void largestSteps() {
 // function to calculate the mean number of steps
 int meanStepCount() {
 
-    int total = 0;
-    int mean = 0;
+    float total = 0;
+    float mean = 0;
     int count;
-    int rounded = 0;
+
 
     for (count = 0; count < GLOBALCOUNT; count++) {
         total += fitness[count].steps;
     }
 
     mean = total / GLOBALCOUNT;
-    rounded = (int)mean;
-    printf("Mean step count: %d\n", rounded);
+
+    printf("Mean step count: %.0f\n", mean);
     return 0;
 }
 
