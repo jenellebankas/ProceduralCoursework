@@ -78,6 +78,7 @@ int optionOperations() {
             }
             break;
 
+
         case 'B':
             printf("Total records: %d\n", GLOBALCOUNT);
             break;
@@ -242,8 +243,6 @@ int longestPeriodCheck() {
             maxPeriodLength = currentPeriodLength;
             periodStart = count;
             periodEnd = count2 - 1;
-
-         
         }   
     count++;   
     }
