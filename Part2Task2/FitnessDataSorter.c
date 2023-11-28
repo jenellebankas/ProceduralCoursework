@@ -30,7 +30,6 @@ int tokeniseRecord(const char *input, const char *delimiter,
     if (token != NULL) {
         strcpy(date, token);
     } else {
-        printf("Invalid File!\n");
         return 1;
     }
 
@@ -38,7 +37,6 @@ int tokeniseRecord(const char *input, const char *delimiter,
     if (token != NULL) {
         strcpy(time, token);
     } else {
-        printf("Invalid File!\n");
         return 1;
     }
     
@@ -46,7 +44,6 @@ int tokeniseRecord(const char *input, const char *delimiter,
     if (token != NULL) {
         strcpy(steps, token);
     } else {
-        printf("Invalid File!\n");
         return 1;
     } 
     
@@ -60,7 +57,6 @@ int addToArray() {
     FILE *file = fopen(filename, "r");
 
     if (file == NULL) {
-        printf("Error: Could not find or open the file.\n");
         return 1;
     }
 
@@ -143,25 +139,22 @@ int sortingArray() {
 int sortedNewFile() {
 
     int count;
-    char sameDirectory[2] = "./";
-    strcpy(sortedFileName,filename);
-    strcat(sameDirectory,sortedFileName);
     
-   
+    // to allow for any file name to be inputted and a new file created 
+    strcpy(sortedFileName,filename);
     char tsv[4] = ".tsv";
-
-    strcat(sameDirectory,tsv);
-    printf("%s", sameDirectory);
+    strcat(sortedFileName,tsv);
+   
 
     // opening the new file
-    FILE *file = fopen(sameDirectory, "a");
+    FILE *file = fopen(sortedFileName, "a");
 
 
     // writes the data to the file 
     for (count = 0; count < GLOBALCOUNT; count++) {
         fprintf(file, "%s\t%s\t%d\n", fitness[count].date, fitness[count].time, fitness[count].steps);
     }
-    printf("Data sorted and written to %s\n", sameDirectory);
+    printf("Data sorted and written to %s\n", sortedFileName);
 }
 
 int main() {
@@ -176,6 +169,7 @@ int main() {
 
     // checks function to add all the data runs without faults 
     if (addingData == 1){
+        printf("Error: Invalid file\n");
         return 1;
     }
 

@@ -203,14 +203,15 @@ int meanStepCount() {
     int total = 0;
     int mean = 0;
     int count;
+    int rounded = 0;
 
     for (count = 0; count < GLOBALCOUNT; count++) {
         total += fitness[count].steps;
     }
 
     mean = total / GLOBALCOUNT;
-
-    printf("Mean step count: %d\n", mean);
+    rounded = (int)mean;
+    printf("Mean step count: %d\n", rounded);
     return 0;
 }
 
