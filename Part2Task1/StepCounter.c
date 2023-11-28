@@ -48,6 +48,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
 int optionOperations() {
 
     char choice[10000];
+    int check;
 
     // to print the options available 
     printf("Menu Options:\n");
@@ -71,7 +72,10 @@ int optionOperations() {
         case 'A':
             printf("Input filename: ");
             scanf("%s", filename);
-            addToArray();
+            check = addToArray();
+            if (check == 1) {
+                return 1;
+            }
             break;
 
         case 'B':
@@ -96,7 +100,7 @@ int optionOperations() {
 
         case 'Q':
             EXIT = 1;
-            return 1;
+            return 0;
             break;
 
         default:
@@ -213,14 +217,13 @@ int meanStepCount() {
 // function to calculate the longest period
 int longestPeriodCheck() {
 
-    int count;
+    int count = 0;
     int count2 = 0;
     int currentPeriodLength = 0;
     int maxPeriodLength = 0;
-    char periodStartDate[11];
-    char periodStartTime[6];
-    char periodEndDate[11];
-    char periodEndTime[6];
+    int periodStart = 0;
+    int periodEnd = 0;
+
 
     while (count < GLOBALCOUNT - 1) {
         currentPeriodLength = 0;
@@ -236,17 +239,16 @@ int longestPeriodCheck() {
         
         if (currentPeriodLength > maxPeriodLength) {
             maxPeriodLength = currentPeriodLength;
-            
-            strcpy(periodStartDate, fitness[count].date);
-            strcpy(periodStartTime, fitness[count].time);
-            strcpy(periodEndDate, fitness[count2 -1].date);
-            strcpy(periodEndTime, fitness[count2 - 1].time);      
+            periodStart = count;
+            periodEnd = count2 - 1;
+
+         
         }   
     count++;   
     }
 
-    printf("Longest period start: %s %s\n", periodStartDate, periodStartTime);
-    printf("Longest period end: %s %s\n", periodEndDate, periodEndTime); 
+    printf("Longest period start: %s %s\n", fitness[periodStart].date, fitness[periodStart].time);
+    printf("Longest period end: %s %s\n", fitness[periodEnd].date, fitness[periodEnd].time); 
 
     return 0;  
 }
