@@ -36,6 +36,8 @@ int tokeniseRecord(const char *input, const char *delimiter,
     token = strtok(NULL, delimiter);
     if (token != NULL) {
         strcpy(time, token);
+    } else if {
+        
     } else {
         return 1;
     }
@@ -77,7 +79,7 @@ int addToArray() {
         // sorting the data in the file
         token = tokeniseRecord(line, ",", date, time, steps);
     
-        if (token == 1){
+        if (token == 1) {
             return 1;
         }
         
@@ -105,10 +107,10 @@ int sortingArray() {
     int count, count2;
 
     // bubble sort algorithm to sort thorugh the data 
-    for (count = 0; count < GLOBALCOUNT - 1; count++) {
+    for (count = 0; count < GLOBALCOUNT; count++) {
         swapped = 0;
          
-        for (count2 = 0; count2 < GLOBALCOUNT - 1; count2++) {
+        for (count2 = 0; count2 < GLOBALCOUNT; count2++) {
 
             if (fitness[count].steps > fitness[count2].steps) {
 
@@ -168,13 +170,13 @@ int main() {
     addingData = addToArray();
 
     // checks function to add all the data runs without faults 
-    if (addingData == 1){
+    if (addingData == 1) {
         printf("Error: Invalid file\n");
         return 1;
+    } else {
+        // sorts and formats the new file
+        sortingArray();
+        sortedNewFile();
+        return 0;
     }
-
-    // sorts and formats the new file
-    sortingArray();
-    sortedNewFile();
-    return 0;
 }
