@@ -145,6 +145,7 @@ int sortedNewFile() {
     
     // to allow for any file name to be inputted and a new file created 
     strcpy(sortedFileName,filename);
+
     char tsv[4] = ".tsv";
     strcat(sortedFileName,tsv);
    
@@ -187,6 +188,8 @@ int main() {
         if (sorting == 1) {
             return 1;
         }
-        return 0;
     }
+
+    
+    return 0;
 }
