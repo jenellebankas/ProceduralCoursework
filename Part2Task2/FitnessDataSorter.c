@@ -2,15 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Define the struct for the fitness data
+// define the struct for the fitness data
 typedef struct {
     char date[11];
     char time[6];
     int steps;
 } FITNESS_DATA;
 
-int GLOBALCOUNT = 0;
 
+// global var for the file count which can be used in multiple functions 
+int GLOBALCOUNT = 0;
 
 
 // array of FITNESS_DATA structs
@@ -35,9 +36,7 @@ int tokeniseRecord(const char *input, const char *delimiter,
 
     token = strtok(NULL, delimiter);
     if (token != NULL) {
-        strcpy(time, token);
-    } else if {
-        
+        strcpy(time, token);   
     } else {
         return 1;
     }
@@ -73,7 +72,9 @@ int addToArray() {
     char time[6];
     char steps[100000];
 
+    // variable to obtain value returned from token
     int token = 0;
+
     // to read each line
     while (fgets(line, buffer_size, file)) {   
         // sorting the data in the file
@@ -151,6 +152,10 @@ int sortedNewFile() {
     // opening the new file
     FILE *file = fopen(sortedFileName, "a");
 
+    if (file == NULL) {
+        return 1;
+    }
+
 
     // writes the data to the file 
     for (count = 0; count < GLOBALCOUNT; count++) {
@@ -163,6 +168,7 @@ int main() {
 
     // creates a variable to check if the array could be created 
     int addingData;
+    int sorting;
 
     printf("Enter a filename: ");
     scanf("%s", filename); 
@@ -176,7 +182,11 @@ int main() {
     } else {
         // sorts and formats the new file
         sortingArray();
-        sortedNewFile();
+
+        sorting = sortedNewFile();
+        if (sorting == 1) {
+            return 1;
+        }
         return 0;
     }
 }
