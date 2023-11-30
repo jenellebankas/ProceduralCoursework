@@ -41,12 +41,12 @@ int tokeniseRecord(const char *input, const char *delimiter,
         return 1;
     }
     
-    token = strtok(NULL, delimiter);
-    if (token != NULL) {
+    token = strtok("\n", delimiter);
+    if (token != "\n") {
         strcpy(steps, token);
     } else {
         return 1;
-    } 
+    }
     
     // Free the duplicated string
     free(inputCopy);
